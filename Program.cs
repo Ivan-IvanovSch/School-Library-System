@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SchoolLibrary.Repositories;
+using Microsoft.AspNetCore.Identity;
+using SchoolLibrary.Models;
 
 namespace SchoolLibrary
 {
@@ -13,6 +15,20 @@ namespace SchoolLibrary
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddDbContext<SchoolLibraryContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            
+            builder.Services.AddIdentity<Account, IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 8;
+                options.Password.RequireDigit = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+
+                options.User.RequireUniqueEmail = true;
+
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+            }).AddEntityFrameworkStores<SchoolLibraryContext>().AddDefaultTokenProviders();
 
             var app = builder.Build();
 

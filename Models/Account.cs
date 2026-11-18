@@ -1,12 +1,11 @@
-﻿using Microsoft.Identity.Client;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Identity.Client;
 
 namespace SchoolLibrary.Models
 {
-    public class Account
+    public class Account : IdentityUser
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Password {  get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
     }
 }
