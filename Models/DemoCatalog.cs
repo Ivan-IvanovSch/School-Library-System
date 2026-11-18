@@ -1,3 +1,5 @@
+using SchoolLibrary.ViewModels;
+
 namespace SchoolLibrary.Models;
 public static class DemoCatalog
 {

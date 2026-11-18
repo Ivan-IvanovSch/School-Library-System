@@ -1,24 +1,119 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SchoolLibrary.Models;
+using SchoolLibrary.ViewModels;
 namespace SchoolLibrary.Controllers;
-// UI scaffold only. Replace POST actions with ASP.NET Core Identity before real use.
+
 public class AccountController : Controller
 {
-    public IActionResult Index() => View("AccountWarning");
-    public IActionResult Preview() => View("Index", new AccountViewModel());
-    public IActionResult AccountWarning() => View();
-    public IActionResult Login() => View(new LoginViewModel());
-    public IActionResult Register() => View(new RegisterViewModel());
-    [HttpPost, ValidateAntiForgeryToken]
-    public IActionResult Login(LoginViewModel model)
+    private readonly UserManager<Account> _userManager;
+    private readonly SignInManager<Account> _signInManager;
+
+
+    public AccountController(UserManager<Account> userManager, SignInManager<Account> signInManager)
     {
-        if (ModelState.IsValid) ModelState.AddModelError("", "Demo only: connect ASP.NET Core Identity to enable login.");
+        _userManager = userManager;
+        _signInManager = signInManager;
+    }
+
+    public IActionResult AccountWarning()
+    {
+        return View();
+    }
+
+    public IActionResult Index()
+    {
+        return RedirectToAction("AccountWarning");
+    }
+
+    [HttpGet]
+    public IActionResult Register()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Register(RegisterViewModel model)
+    {
+        if (!ModelState.IsValid)
+            return View(model);
+
+        var user = new Account
+        {
+            UserName = model.Username,
+            Email = model.Email
+        };
+
+        var result = await _userManager.CreateAsync(user, model.Password);
+
+        if (result.Succeeded)
+        {
+            await _signInManager.SignInAsync(user, isPersistent: false);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        foreach (var error in result.Errors)
+        {
+            ModelState.AddModelError(string.Empty, error.Description);
+        }
+
         return View(model);
     }
-    [HttpPost, ValidateAntiForgeryToken]
-    public IActionResult Register(RegisterViewModel model)
+
+    [HttpGet]
+    public IActionResult Login()
     {
-        if (ModelState.IsValid) ModelState.AddModelError("", "Demo only: connect ASP.NET Core Identity to create accounts.");
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Login(LoginViewModel model)
+    {
+        if (!ModelState.IsValid)
+            return View(model);
+
+        var user = await _userManager.FindByNameAsync(model.UsernameOrEmail);
+
+        if (user == null)
+        {
+            user = await _userManager.FindByEmailAsync(model.UsernameOrEmail);
+        }
+
+        if (user == null)
+        {
+            ModelState.AddModelError(string.Empty, "Invalid login credentials.");
+            return View(model);
+        }
+
+        var result = await _signInManager.PasswordSignInAsync(
+            user,
+            model.Password,
+            model.RememberMe,
+            lockoutOnFailure: true
+        );
+
+        if (result.Succeeded)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        ModelState.AddModelError(
+            string.Empty,
+            "Invalid login credentials."
+        );
+
         return View(model);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Logout()
+    {
+        await _signInManager.SignOutAsync();
+
+        return RedirectToAction("Index", "Home");
     }
 }

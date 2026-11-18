@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SchoolLibrary.ViewModels;
 using SchoolLibrary.Models;
-using Microsoft.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace SchoolLibrary.Repositories
 {
     public class SchoolLibraryContext : IdentityDbContext<Account>
     {
-        public SchoolLibraryContext(DbContextOptions options) : base(options)
+        public SchoolLibraryContext(DbContextOptions<SchoolLibraryContext> options) : base(options)
         {
         }
 
