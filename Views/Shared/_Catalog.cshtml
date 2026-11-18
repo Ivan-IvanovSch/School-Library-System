@@ -1,0 +1,31 @@
+@model CatalogViewModel
+<div class="catalog">
+    <aside class="sidebar" aria-label="Book categories">
+        <h2>Categories</h2>
+        <a class="@(Model.Category == null ? "selected" : "")" asp-controller="Books" asp-action="Index">Everything</a>
+        @foreach (var category in Model.Categories)
+        {
+            <a class="@(Model.Category == category ? "selected" : "")" asp-controller="Books" asp-action="Index" asp-route-category="@category">@category</a>
+        }
+    </aside>
+    <section class="catalog-content">
+        <h1>@Model.Heading</h1>
+        <div class="book-grid">
+            @foreach (var book in Model.Books)
+            {
+                <article class="book-card">
+                    <a class="book-link" asp-controller="Books" asp-action="Details" asp-route-id="@book.Id">
+                    <div class="book-cover" style="--cover: @book.Color">
+                        <span class="cover-category">@book.Category</span>
+                        <span class="cover-title">@book.Title</span>
+                        <span class="cover-author">@book.Author</span>
+                    </div>
+                    <h2>@book.Title</h2>
+                    <p>@book.Author</p>
+                    </a>
+                </article>
+            }
+        </div>
+        @if (!Model.Books.Any()) { <p class="empty">No books in this category yet.</p> }
+    </section>
+</div>

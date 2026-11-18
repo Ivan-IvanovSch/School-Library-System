@@ -1,0 +1,11 @@
+@model AccountViewModel
+@{ ViewData["Title"] = "Account"; }
+<section class="profile-panel">
+    <div class="profile-info"><h1>@Model.Name</h1><p class="username">@@@Model.Username</p><p class="email">@Model.Email</p>
+        <a class="button" asp-action="Login">Log in</a>
+        <p class="demo-note">Sample profile · sign in to use your own account once authentication is connected.</p>
+    </div>
+    <div class="avatar" role="img" aria-label="Default profile avatar">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="36" r="17"/><path d="M18 91v-12a32 32 0 0 1 64 0v12"/></svg>
+    </div>
+</section>
