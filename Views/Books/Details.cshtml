@@ -1,0 +1,17 @@
+@model BookDetailsViewModel
+@{ ViewData["Title"] = Model.Book.Title; }
+<article class="book-details">
+    <div>
+        <h1>@Model.Book.Title</h1>
+        <p><strong>Author:</strong> @Model.Book.Author</p>
+        <p><strong>Status:</strong> @(Model.IsAvailable ? "Available" : "Unavailable")</p>
+        <h2>Description:</h2>
+        <div class="book-description">@Model.Description</div>
+        <a class="back-link" asp-controller="Books" asp-action="Index">Back to library</a>
+    </div>
+    <div class="book-cover detail-cover" style="--cover: @Model.Book.Color">
+        <span class="cover-category">@Model.Book.Category</span>
+        <span class="cover-title">@Model.Book.Title</span>
+        <span class="cover-author">@Model.Book.Author</span>
+    </div>
+</article>

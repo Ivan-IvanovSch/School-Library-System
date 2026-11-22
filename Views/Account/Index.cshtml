@@ -1,0 +1,55 @@
+@model AccountViewModel
+
+@{
+    ViewData["Title"] = "Account";
+    bool isLoggedIn = User.Identity?.IsAuthenticated == true;
+}
+
+<section class="profile-panel">
+    <div class="profile-info">
+
+        @if (isLoggedIn)
+        {
+            <h1>@(Model?.Name ?? User.Identity?.Name ?? "My Account")</h1>
+
+            <p class="username">@@@(Model?.Username ?? User.Identity?.Name)</p>
+
+            <p class="email">@Model?.Email</p>
+
+            <form asp-controller="Account" asp-action="Logout" method="post">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="button">Log out</button>
+            </form>
+        }
+        else
+        {
+            <h1>Welcome to SchoolLibrary</h1>
+
+            <p class="username">Your account awaits!</p>
+
+            <p class="email">
+                Log in or create an account to access your profile.
+            </p>
+
+            <a class="button" asp-controller="Account" asp-action="Login">
+                Log in
+            </a>
+
+            <a class="button" asp-controller="Account" asp-action="Register">
+                Register
+            </a>
+
+            <p class="demo-note">
+                Sign in to view your personal SchoolLibrary profile.
+            </p>
+        }
+
+    </div>
+
+    <div class="avatar" role="img" aria-label="Default profile avatar">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+            <circle cx="50" cy="36" r="17" />
+            <path d="M18 91v-12a32 32 0 0 1 64 0v12" />
+        </svg>
+    </div>
+</section>

@@ -1,0 +1,58 @@
+@model SchoolLibrary.ViewModels.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Sign up";
+}
+
+<section class="auth-panel">
+    <h1>Create a new account</h1>
+
+    <form asp-controller="Account" asp-action="Register" method="post">
+        <div asp-validation-summary="ModelOnly" class="validation" role="alert"></div>
+
+        <div class="field">
+            <label asp-for="Username"></label>
+            <input asp-for="Username"
+                   autocomplete="username"
+                   minlength="3"
+                   maxlength="40"
+                   required />
+            <span asp-validation-for="Username" class="validation"></span>
+        </div>
+
+        <div class="field">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" autocomplete="email" required />
+            <span asp-validation-for="Email" class="validation"></span>
+        </div>
+
+        <div class="field">
+            <label asp-for="Password"></label>
+            <input asp-for="Password"
+                   type="password"
+                   autocomplete="new-password"
+                   minlength="8"
+                   maxlength="100"
+                   required />
+            <span asp-validation-for="Password" class="validation"></span>
+        </div>
+
+        <div class="field">
+            <label asp-for="ConfirmPassword"></label>
+            <input asp-for="ConfirmPassword"
+                   type="password"
+                   autocomplete="new-password"
+                   required />
+            <span asp-validation-for="ConfirmPassword" class="validation"></span>
+        </div>
+
+        <div class="form-bottom">
+            <button type="submit">Register</button>
+
+            <p>
+                Already have an account?<br />
+                <a asp-action="Login">Log in here.</a>
+            </p>
+        </div>
+    </form>
+</section>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] — School Library</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="library-shell">
+        <header class="topbar">
+            <a class="brand" asp-controller="Home" asp-action="Index">School Library</a>
+            <nav aria-label="Main navigation">
+                <a asp-controller="Home" asp-action="Index">New entries</a>
+                <a asp-controller="Books" asp-action="Index">Everything</a>
+                <a class="account-link" asp-controller="Account" asp-action="Index" aria-label="Account">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="currentColor"/><circle cx="12" cy="8" r="4" fill="var(--taupe)"/><path d="M5 20v-3a7 7 0 0 1 14 0v3" fill="var(--taupe)"/></svg>
+                </a>
+            </nav>
+        </header>
+        <main id="main-content">@RenderBody()</main>
+        <footer>A little discovery on every shelf.</footer>
+    </div>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
