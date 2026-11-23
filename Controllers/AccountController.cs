@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SchoolLibrary.Models;
@@ -21,9 +22,15 @@ public class AccountController : Controller
         return View();
     }
 
+
     public IActionResult Index()
     {
-        return RedirectToAction("AccountWarning");
+        if (User.Identity?.IsAuthenticated != true)
+        {
+            return RedirectToAction("AccountWarning", "Account");
+        }
+
+        return View();
     }
 
     [HttpGet]
