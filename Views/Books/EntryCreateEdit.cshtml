@@ -1,33 +1,41 @@
 @model BookEntryViewModel
-@{ var editing = Model.Id > 0; ViewData["Title"] = editing ? "Edit entry" : "New entry"; }
-<link rel="stylesheet" href="~/css/book-entry.css" asp-append-version="true" />
+@{
+	var editing = Model.Id > 0; ViewData["Title"] = editing ? "Edit entry" : "New entry";
+}
 <section class="entry-panel">
- <a class="back-link" asp-controller="Books" asp-action="Index">← Back to library</a>
- <div class="entry-heading"><h1>@ViewData["Title"]</h1><p>@(editing ? "Update the details of this book." : "Add a book to your library.")</p></div>
- <form class="entry-form" asp-controller="Books" asp-action="@(editing ? "Edit" : "Create")" method="post" enctype="multipart/form-data" data-book-entry>
- <input type="hidden" asp-for="Id" />
- <div asp-validation-summary="All" class="validation" style="grid-column:1/-1" role="alert"></div>
-<div class="entry-fields">
- <div class="field"><label for="Title">Book name</label><input asp-for="Title" placeholder="Enter book name" required maxlength="200"></div>
- <div class="field"><label for="Author">Author</label><input asp-for="Author" placeholder="Enter author name" required maxlength="150"></div>
- <div class="entry-pair">
- <div class="field"><label for="IsAvailable">Status</label><select asp-for="IsAvailable"><option value="true">Available</option><option value="false">Unavailable</option></select></div>
- <div class="field"><label for="AvailableAmount">Available amount</label><input asp-for="AvailableAmount" type="number" min="0" max="100000" required></div>
- </div>
- <div class="field"><label for="Description">Description</label><textarea asp-for="Description" placeholder="Write a little about this book…" maxlength="5000"></textarea></div>
- </div>
- <div class="entry-cover">
- <label for="CoverImage">Book cover</label>
- <div class="cover-preview"><div class="cover-placeholder" data-cover-placeholder hidden="@(!string.IsNullOrWhiteSpace(Model.ExistingCoverUrl))"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="7" y="5" width="34" height="38" rx="2"/><circle cx="18" cy="17" r="4"/><path d="m7 35 12-12 8 8 6-6 8 10"/></svg>Your book cover goes here</div>@if (!string.IsNullOrWhiteSpace(Model.ExistingCoverUrl))
- { <img data-cover-image src="@Model.ExistingCoverUrl" alt="Current book cover"> }
- else
- { <img data-cover-image hidden alt="Book cover preview"> }</div>
- <input asp-for="CoverImage" type="file" accept="image/jpeg,image/png,image/webp" data-cover-input>
- <small>JPG, PNG or WebP · up to 5 MB</small><span class="validation" data-cover-error role="alert"></span>
- </div>
- <div class="entry-actions"><a class="entry-cancel" asp-controller="Books" asp-action="Index">Cancel</a><button type="submit">@(editing ? "Save changes" : "New entry")</button></div>
- </form>
+	<a class="back-link" asp-controller="Books" asp-action="Index">← Back to library</a>
+	<div class="entry-heading"><h1>@ViewData["Title"]</h1><p>@(editing ? "Update the details of this book." : "Add a book to your library.")</p></div>
+	<form class="entry-form" asp-controller="Books" asp-action="@(editing ? "Edit" : "Create")" method="post" enctype="multipart/form-data" data-book-entry>
+		<input type="hidden" asp-for="Id" />
+		<div asp-validation-summary="All" class="validation" role="alert"></div>
+		<div class="entry-fields">
+			<div class="field"><label for="Title">Book name</label><input asp-for="Title" placeholder="Enter book name"></div>
+			<div class="field"><label for="Author">Author</label><input asp-for="Author" placeholder="Enter author name"></div>
+			<div class="field"><label for="Category">Category</label><input asp-for="Category" placeholder="Enter category"></div>
+			<div class="entry-pair">
+				<div class="field"><label for="IsAvailable">Status</label><select asp-for="IsAvailable"><option value="true">Available</option><option value="false">Unavailable</option></select></div>
+				<div class="field"><label for="AvailableAmount">Available amount</label><input asp-for="AvailableAmount" type="number"></div>
+			</div>
+			<div class="field"><label for="Description">Description</label><textarea asp-for="Description" placeholder="Write a little about this book…"></textarea></div>
+		</div>
+		<div class="entry-cover">
+			<label for="CoverImage">Book cover</label>
+			<div class="cover-preview">
+				<div class="cover-placeholder" data-cover-placeholder hidden="@(!string.IsNullOrWhiteSpace(Model.ExistingCoverUrl))"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="7" y="5" width="34" height="38" rx="2" /><circle cx="18" cy="17" r="4" /><path d="m7 35 12-12 8 8 6-6 8 10" /></svg>Your book cover goes here</div>@if (!string.IsNullOrWhiteSpace(Model.ExistingCoverUrl))
+				{
+					<img data-cover-image src="@Model.ExistingCoverUrl" alt="Current book cover">
+				}
+				else
+				{
+					<img data-cover-image hidden alt="Book cover preview">
+				}
+			</div>
+			<input asp-for="CoverImage" type="file" data-cover-input>
+			<small>JPG, PNG or WebP · up to 5 MB</small><span class="validation" data-cover-error role="alert"></span>
+		</div>
+		<div class="entry-actions"><a class="entry-cancel" asp-controller="Books" asp-action="Index">Cancel</a><button type="submit">@(editing ? "Save changes" : "New entry")</button></div>
+	</form>
 </section>
 @section Scripts {
- <script src="~/js/book-entry.js" asp-append-version="true"></script>
+	<script src="~/js/book-entry.js" asp-append-version="true"></script>
 }

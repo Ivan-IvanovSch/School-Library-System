@@ -1,10 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
 using SchoolLibrary.Models;
 using SchoolLibrary.ViewModels;
+using SchoolLibrary.Repositories;
+using Microsoft.AspNetCore.Identity;
 
 namespace SchoolLibrary.Controllers;
 public class BooksController : Controller
 {
+    private readonly SchoolLibraryContext _context;
+
+    public BooksController(SchoolLibraryContext context)
+    {
+        _context = context;
+    }
+
     public IActionResult Index(string? category)
     {
         var books = DemoCatalog.Books.AsEnumerable();
@@ -31,13 +40,14 @@ public class BooksController : Controller
 
     public IActionResult Edit(int id)
     {
-        // Load the book and populate its view model.
+        //Book book = _context.Books.FirstOrDefault(b => b.Id == id);
+
+        //if (book is null) return NotFound();
+
         var model = new BookEntryViewModel
         {
-            Id = id,
-            // Title = book.Title,
-            // Author = book.Author,
-            // ...
+            
+            
         };
 
         return View("EntryCreateEdit", model);

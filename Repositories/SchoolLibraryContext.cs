@@ -11,6 +11,6 @@ namespace SchoolLibrary.Repositories
         {
         }
 
-        DbSet<BookCard> Books { get; set; }
+        public DbSet<Book> Books { get; set; }
     }   
 }

@@ -25,20 +25,20 @@ body{margin:0;background:#f5f5f4;color:var(--ink);font:15px/1.5 "Trebuchet MS",A
     width: 100%;
     max-width: 1180px;
     margin: 0 auto;
-    padding: 32px clamp(24px,5vw,72px) 56px
+    padding: clamp(12px, 2vh, 24px) clamp(24px, 5vw, 72px) 16px;
 }
 
     .entry-panel .back-link {
-        margin: 0 0 28px;
+        margin: 0 0 12px;
         font-size: 14px
     }
 
 .entry-heading {
-    margin-bottom: 30px
+    margin-bottom: 16px;
 }
 
     .entry-heading h1 {
-        margin: 0 0 7px;
+        margin: 0 0 4px;
         font-size: clamp(26px,3vw,36px)
     }
 
@@ -51,7 +51,8 @@ body{margin:0;background:#f5f5f4;color:var(--ink);font:15px/1.5 "Trebuchet MS",A
     display: grid;
     grid-template-columns: minmax(0,1fr) minmax(200px,280px);
     gap: clamp(32px,7vw,100px);
-    align-items: start
+    align-items: start;
+    row-gap: 0;
 }
 
 .entry-fields {
@@ -59,7 +60,7 @@ body{margin:0;background:#f5f5f4;color:var(--ink);font:15px/1.5 "Trebuchet MS",A
 }
 
 .entry-form .field {
-    margin-bottom: 19px
+    margin-bottom: 10px;
 }
 
 .entry-form input:not([type=file]), .entry-form select, .entry-form textarea {
@@ -70,8 +71,8 @@ body{margin:0;background:#f5f5f4;color:var(--ink);font:15px/1.5 "Trebuchet MS",A
     background: #fffaf0;
     color: var(--ink);
     font: inherit;
-    padding: 10px 12px;
-    min-height: 44px
+    padding: 7px 12px;
+    min-height: 38px
 }
 
     .entry-form input::placeholder, .entry-form textarea::placeholder {
@@ -80,8 +81,10 @@ body{margin:0;background:#f5f5f4;color:var(--ink);font:15px/1.5 "Trebuchet MS",A
 
 .entry-form textarea {
     resize: vertical;
-    min-height: 150px;
-    line-height: 1.6
+    min-height: 64px;
+    line-height: 1.6;
+    height: clamp(64px, 12vh, 110px);
+    padding: 8px 12px;
 }
 
 .entry-pair {
@@ -93,7 +96,7 @@ body{margin:0;background:#f5f5f4;color:var(--ink);font:15px/1.5 "Trebuchet MS",A
 .entry-cover {
     display: flex;
     flex-direction: column;
-    gap: 12px
+    gap: 8px;
 }
 
     .entry-cover > label {
@@ -103,13 +106,15 @@ body{margin:0;background:#f5f5f4;color:var(--ink);font:15px/1.5 "Trebuchet MS",A
 
 .cover-preview {
     aspect-ratio: 3/4;
-    width: 100%;
+    width: auto;
     background: #fffaf0;
     border: 1px dashed var(--line);
     display: grid;
     place-items: center;
     overflow: hidden;
-    position: relative
+    position: relative;
+    height: clamp(150px, 34vh, 320px);
+    max-width: 100%;
 }
 
 .cover-placeholder {
@@ -160,8 +165,8 @@ body{margin:0;background:#f5f5f4;color:var(--ink);font:15px/1.5 "Trebuchet MS",A
     align-items: center;
     gap: 22px;
     border-top: 1px solid #b7a18266;
-    margin-top: 30px;
-    padding-top: 24px;
+    margin-top: 16px;
+    padding-top: 14px;
     grid-column: 1/-1
 }
 
@@ -186,12 +191,14 @@ body{margin:0;background:#f5f5f4;color:var(--ink);font:15px/1.5 "Trebuchet MS",A
 @media(max-width:600px) {
     .entry-form {
         grid-template-columns: minmax(0,1fr);
-        gap: 24px
+        gap: 20px
     }
 
     .entry-cover {
         max-width: 230px
     }
+
+    .cover-preview { height: 180px; }
 
     .entry-actions {
         justify-content: space-between
@@ -203,9 +210,16 @@ body{margin:0;background:#f5f5f4;color:var(--ink);font:15px/1.5 "Trebuchet MS",A
     }
 
     .entry-panel {
-        padding: 24px 20px 36px
+        padding: 16px 20px 24px
     }
 }
 
 @media(max-width:700px){.catalog{grid-template-columns:150px minmax(0,1fr)}.catalog-content{padding:24px 16px}.book-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.book-details{grid-template-columns:minmax(0,1fr) minmax(120px,30%);padding:24px;gap:24px}}
 @media(max-width:480px){.catalog{display:block}.sidebar{display:flex;flex-wrap:wrap;padding:12px;gap:6px}.sidebar h2{width:100%;padding:0 4px 4px}.sidebar a,.sidebar a:last-child{border:1px solid var(--line);padding:5px 8px}.book-details{grid-template-columns:minmax(0,1fr)}.detail-cover{width:160px;grid-row:1}.profile-panel{flex-wrap:wrap}.form-bottom{flex-wrap:wrap}.book-cover{min-height:0}.cover-title{overflow-wrap:anywhere}}
+
+/* Entry-specific validation layout and label spacing. */
+.entry-panel .validation:empty,
+.entry-panel .validation-summary-valid { display: none; }
+.entry-panel .field label { margin-bottom: 3px; }
+.entry-panel .entry-fields > .field:last-child { margin-bottom: 0; }
+.entry-form > .validation { grid-column: 1 / -1; }
