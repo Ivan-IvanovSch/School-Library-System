@@ -22,7 +22,6 @@ public class AccountController : Controller
         return View();
     }
 
-
     public IActionResult Index()
     {
         if (User.Identity?.IsAuthenticated != true)

@@ -23,4 +23,23 @@ public class BooksController : Controller
             Description = $"Explore {book.Title} by {book.Author}, part of our {book.Category.ToLowerInvariant()} collection. This is a sample description; replace it with the book's description from your database."
         });
     }
+
+    public IActionResult Create()
+    {
+        return View("EntryCreateEdit", new BookEntryViewModel());
+    }
+
+    public IActionResult Edit(int id)
+    {
+        // Load the book and populate its view model.
+        var model = new BookEntryViewModel
+        {
+            Id = id,
+            // Title = book.Title,
+            // Author = book.Author,
+            // ...
+        };
+
+        return View("EntryCreateEdit", model);
+    }
 }
