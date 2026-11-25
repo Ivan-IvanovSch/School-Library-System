@@ -1,4 +1,5 @@
-@model BookDetailsViewModel
+@model SchoolLibrary.ViewModels.BookDetailsViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{ ViewData["Title"] = Model.Book.Title; }
 <article class="book-details">
     <div>
@@ -14,5 +15,5 @@
         <span class="cover-title">@Model.Book.Title</span>
         <span class="cover-author">@Model.Book.Author</span>
     </div>
-    <div><button><a asp-controller="Books" asp-action="Edit">Edit</a></button></div>
+    <div><a class="button" asp-controller="Books" asp-action="Edit" asp-route-id="@Model.Book.Id">Edit</a></div>
 </article>
