@@ -1,11 +1,16 @@
-@model BookEntryViewModel
+@model SchoolLibrary.ViewModels.BookEntryViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
 	var editing = Model.Id > 0; ViewData["Title"] = editing ? "Edit entry" : "New entry";
 }
 <section class="entry-panel">
 	<a class="back-link" asp-controller="Books" asp-action="Index">← Back to library</a>
 	<div class="entry-heading"><h1>@ViewData["Title"]</h1><p>@(editing ? "Update the details of this book." : "Add a book to your library.")</p></div>
-	<form class="entry-form" asp-controller="Books" asp-action="@(editing ? "Edit" : "Create")" method="post" enctype="multipart/form-data" data-book-entry>
+	@if (TempData["EntryMessage"] is string message)
+	{
+		<p class="entry-message validation" role="alert">@message</p>
+	}
+	<form class="entry-form" asp-controller="Books" asp-action="@(editing ? "Edit" : "Create")" asp-route-id="@(editing ? (int?)Model.Id : null)" asp-antiforgery="true" method="post" enctype="multipart/form-data" data-book-entry>
 		<input type="hidden" asp-for="Id" />
 		<div asp-validation-summary="All" class="validation" role="alert"></div>
 		<div class="entry-fields">
@@ -30,7 +35,7 @@
 					<img data-cover-image hidden alt="Book cover preview">
 				}
 			</div>
-			<input asp-for="CoverImage" type="file" data-cover-input>
+			<input asp-for="CoverImage" type="file" accept="image/jpeg,image/png,image/webp" data-cover-input>
 			<small>JPG, PNG or WebP · up to 5 MB</small><span class="validation" data-cover-error role="alert"></span>
 		</div>
 		<div class="entry-actions"><a class="entry-cancel" asp-controller="Books" asp-action="Index">Cancel</a><button type="submit">@(editing ? "Save changes" : "New entry")</button></div>
